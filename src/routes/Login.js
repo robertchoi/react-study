@@ -1,6 +1,8 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
+import { useEffect, useState } from "react";
+import { faInbox } from "@fortawesome/free-solid-svg-icons";
 
 const borderColor = "#d6d6d6";
 
@@ -10,11 +12,39 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 100%;
   height: 100vh;
+  position: relative;
 `;
-const Img = styled.img`
-  width: 381px;
-  height: 578px;
+
+const LeftBox = styled.div`
   margin-right: 20px;
+  position: relative;
+`;
+
+const Img = styled.img`
+  width: 450px;
+  height: 600px;
+`;
+
+const fadeInOut = keyframes`
+  0%{
+    opacity: 0;
+  }
+  10%{
+    opacity: 1;
+  }
+ 
+  100%{
+    opacity: 0;
+  }
+`;
+
+const ChangeImgs = styled.img`
+  width: 250px;
+  height: 520px;
+  position: absolute;
+  right: 73px;
+  top: 30px;
+  animation: ${fadeInOut} 3s;
 `;
 
 const RightBox = styled.div`
@@ -22,6 +52,7 @@ const RightBox = styled.div`
   height: 580px;
   box-sizing: border-box;
 `;
+
 const LoginBox = styled.div`
   display: flex;
   justify-content: start;
@@ -106,9 +137,25 @@ const DownloadApp = styled.div`
 `;
 
 function Login() {
+  const [number, setNumber] = useState(1);
+  // const imgList = ["loginImg1", "loginImg2", "loginImg3"];
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setNumber((current) => (current === 3 ? 1 : current + 1));
+    }, 3000);
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [number]);
+
   return (
     <Wrapper>
-      <Img src={`/img/Insta.png`} />
+      <LeftBox>
+        <Img src={`/img/loginImgFrame.png`} />
+        {/* <ChangeImgs src={`/img/${imgList[number % 3]}.png`} /> */}
+        <ChangeImgs src={`/img/loginImg${number}.png`} />
+      </LeftBox>
+
       <RightBox>
         <LoginBox>
           <img className="logo" src={`/img/Instagram_logo.png`} />
