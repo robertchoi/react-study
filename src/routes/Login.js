@@ -2,6 +2,7 @@ import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 import { useEffect, useState } from "react";
+import Footer from "../components/Footer";
 
 const borderColor = "#d6d6d6";
 
@@ -17,7 +18,7 @@ const Wrapper = styled.div`
 `;
 const Wrapper__top = styled.div`
   display: flex;
-  margin-bottom: 100px;
+  margin-bottom: 70px;
 `;
 const LeftBox = styled.div`
   margin-right: 20px;
@@ -142,20 +143,6 @@ const DownloadApp = styled.div`
   }
 `;
 
-const Footer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: gray;
-`;
-const MenuTab = styled.div`
-  a {
-    text-decoration: none;
-    font-size: 13px;
-    margin: 0 5px;
-    color: inherit;
-  }
-`;
 function Login() {
   const [number, setNumber] = useState(1);
   useEffect(() => {
@@ -210,24 +197,7 @@ function Login() {
           </DownloadApp>
         </RightBox>
       </Wrapper__top>
-      <Footer>
-        <MenuTab>
-          <a href="/">Meta</a>
-          <a href="/">소개</a>
-          <a href="/">블로그</a>
-          <a href="/">채용 정보</a>
-          <a href="/">도움말</a>
-          <a href="/">API</a>
-          <a href="/">개인정보처리방침</a>
-          <a href="/">약관</a>
-          <a href="/">인기 계정</a>
-          <a href="/">위치</a>
-          <a href="/">Instagram Lite</a>
-          <a href="/">연락처 업로드 & 비사용자</a>
-          <a href="/">Meta Verified</a>
-        </MenuTab>
-        <p>&copy; 2023 My Instagram Clone</p>
-      </Footer>
+      <Footer />
     </Wrapper>
   );
 }
