@@ -2,19 +2,23 @@ import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 import { useEffect, useState } from "react";
-import { faInbox } from "@fortawesome/free-solid-svg-icons";
 
 const borderColor = "#d6d6d6";
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100vh;
   position: relative;
+  margin-top: 50px;
 `;
-
+const Wrapper__top = styled.div`
+  display: flex;
+  margin-bottom: 100px;
+`;
 const LeftBox = styled.div`
   margin-right: 20px;
   position: relative;
@@ -29,10 +33,12 @@ const fadeInOut = keyframes`
   0%{
     opacity: 0;
   }
-  10%{
+   30%{
     opacity: 1;
   }
- 
+ 70%{
+  opacity: 1;
+ }
   100%{
     opacity: 0;
   }
@@ -44,7 +50,7 @@ const ChangeImgs = styled.img`
   position: absolute;
   right: 73px;
   top: 30px;
-  animation: ${fadeInOut} 3s;
+  animation: ${fadeInOut} 4s ease-in-out;
 `;
 
 const RightBox = styled.div`
@@ -136,13 +142,26 @@ const DownloadApp = styled.div`
   }
 `;
 
+const Footer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: gray;
+`;
+const MenuTab = styled.div`
+  a {
+    text-decoration: none;
+    font-size: 13px;
+    margin: 0 5px;
+    color: inherit;
+  }
+`;
 function Login() {
   const [number, setNumber] = useState(1);
-  // const imgList = ["loginImg1", "loginImg2", "loginImg3"];
   useEffect(() => {
     const timerId = setTimeout(() => {
       setNumber((current) => (current === 3 ? 1 : current + 1));
-    }, 3000);
+    }, 4000);
     return () => {
       clearTimeout(timerId);
     };
@@ -150,46 +169,65 @@ function Login() {
 
   return (
     <Wrapper>
-      <LeftBox>
-        <Img src={`/img/loginImgFrame.png`} />
-        {/* <ChangeImgs src={`/img/${imgList[number % 3]}.png`} /> */}
-        <ChangeImgs src={`/img/loginImg${number}.png`} />
-      </LeftBox>
+      <Wrapper__top>
+        <LeftBox>
+          <Img src={`/img/loginImgFrame.png`} />
 
-      <RightBox>
-        <LoginBox>
-          <img className="logo" src={`/img/Instagram_logo.png`} />
-          <LoginForm>
-            <Input placeholder="전화번호, 사용자 이름 또는 이메일" />
-            <Input placeholder="비밀번호" type="password" />
-            <button>로그인</button>
-            <div id="or">또는</div>
-          </LoginForm>
-          <a href="/" className="facebook">
-            <FontAwesomeIcon icon={faSquareFacebook}></FontAwesomeIcon>{" "}
-            Facebook으로 로그인
-          </a>
-          <a href="/" className="forgot_password">
-            비밀번호를 잊으셨나요?
-          </a>
-        </LoginBox>
+          <ChangeImgs key={number} src={`/img/loginImg${number}.png`} />
+        </LeftBox>
+        <RightBox>
+          <LoginBox>
+            <img className="logo" src={`/img/Instagram_logo.png`} />
+            <LoginForm>
+              <Input placeholder="전화번호, 사용자 이름 또는 이메일" />
+              <Input placeholder="비밀번호" type="password" />
+              <button>로그인</button>
+              <div id="or">또는</div>
+            </LoginForm>
+            <a href="/" className="facebook">
+              <FontAwesomeIcon icon={faSquareFacebook}></FontAwesomeIcon>
+              Facebook으로 로그인
+            </a>
+            <a href="/" className="forgot_password">
+              비밀번호를 잊으셨나요?
+            </a>
+          </LoginBox>
 
-        <AccountBox>
-          <span>계정이 없으신가요?</span>
-          <a href="/">가입하기</a>
-        </AccountBox>
-        <DownloadApp>
-          <div className="title">앱을 다운로드하세요</div>
-          <div>
-            <a href="/">
-              <img src={`/img/apple.png`} />
-            </a>
-            <a href="/">
-              <img src={`/img/google.png`} />
-            </a>
-          </div>
-        </DownloadApp>
-      </RightBox>
+          <AccountBox>
+            <span>계정이 없으신가요?</span>
+            <a href="/">가입하기</a>
+          </AccountBox>
+          <DownloadApp>
+            <div className="title">앱을 다운로드하세요</div>
+            <div>
+              <a href="/">
+                <img src={`/img/apple.png`} />
+              </a>
+              <a href="/">
+                <img src={`/img/google.png`} />
+              </a>
+            </div>
+          </DownloadApp>
+        </RightBox>
+      </Wrapper__top>
+      <Footer>
+        <MenuTab>
+          <a href="/">Meta</a>
+          <a href="/">소개</a>
+          <a href="/">블로그</a>
+          <a href="/">채용 정보</a>
+          <a href="/">도움말</a>
+          <a href="/">API</a>
+          <a href="/">개인정보처리방침</a>
+          <a href="/">약관</a>
+          <a href="/">인기 계정</a>
+          <a href="/">위치</a>
+          <a href="/">Instagram Lite</a>
+          <a href="/">연락처 업로드 & 비사용자</a>
+          <a href="/">Meta Verified</a>
+        </MenuTab>
+        <p>&copy; 2023 My Instagram Clone</p>
+      </Footer>
     </Wrapper>
   );
 }
