@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
+import { useRecoilValue } from "recoil";
+import { widthSize } from "../atoms";
 
 const Wrapper = styled.div`
   padding: 30px 70px;
@@ -54,13 +56,24 @@ const MenuRight = styled.div`
 const Contents = styled.div`
   margin-top: 100px;
 `;
+const getContentMainFontSize = (widthSize) => {
+  if (widthSize > 1100) {
+    return "100px";
+  } else if (widthSize > 800) {
+    return "80px";
+  } else {
+    return "50px";
+  }
+};
+
 const Content__Main = styled.div`
   display: flex;
-  font-size: 100px;
+  font-size: ${(props) => getContentMainFontSize(useRecoilValue(widthSize))};
   justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 80px;
   img {
-    width: 400px;
+    width: 30vw;
   }
   .middle {
     text-align: end;
@@ -68,8 +81,10 @@ const Content__Main = styled.div`
 `;
 const Content__Main__Text = styled.div``;
 function About() {
+  const width = useRecoilValue(widthSize);
   const [height, setHeight] = useState(0);
   const [isHide, setIsHide] = useState(false);
+
   useEffect(() => {
     function handleScroll() {
       setHeight(window.scrollY);

@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
+import { useRecoilValue } from "recoil";
+import { widthSize } from "../atoms";
 
 const borderColor = "#d6d6d6";
 
@@ -145,6 +147,8 @@ const DownloadApp = styled.div`
 
 function Login() {
   const [number, setNumber] = useState(1);
+  const width = useRecoilValue(widthSize);
+
   useEffect(() => {
     const timerId = setTimeout(() => {
       setNumber((current) => (current === 3 ? 1 : current + 1));
@@ -157,11 +161,15 @@ function Login() {
   return (
     <Wrapper>
       <Wrapper__top>
-        <LeftBox>
-          <Img src={`/img/loginImgFrame.png`} />
+        {width < 900 ? (
+          <></>
+        ) : (
+          <LeftBox>
+            <Img src={`/img/loginImgFrame.png`} />
+            <ChangeImgs key={number} src={`/img/loginImg${number}.png`} />
+          </LeftBox>
+        )}
 
-          <ChangeImgs key={number} src={`/img/loginImg${number}.png`} />
-        </LeftBox>
         <RightBox>
           <LoginBox>
             <img className="logo" src={`/img/Instagram_logo.png`} />

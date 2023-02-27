@@ -1,5 +1,8 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import { createGlobalStyle } from "styled-components";
+import { widthSize } from "./atoms";
 import About from "./routes/About";
 import Login from "./routes/Login";
 
@@ -54,6 +57,20 @@ a{
 `;
 
 function App() {
+  const [width, setWidth] = useRecoilState(widthSize);
+
+  useEffect(() => {
+    console.log(width);
+  }, [width]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [setWidth]);
+
   return (
     <>
       <Router>
