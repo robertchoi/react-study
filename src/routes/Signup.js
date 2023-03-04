@@ -1,10 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
-import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
-import { useRecoilValue } from "recoil";
-import { widthSize } from "../atoms";
 
 const borderColor = "#d6d6d6";
 
@@ -14,53 +11,35 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100vh;
+  height: 90vh;
   position: relative;
   margin-top: 50px;
+  button {
+    background-color: #0095f6;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    width: 286px;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  input {
+    height: 35px;
+  }
+`;
+const FacebookIcon = styled(FontAwesomeIcon)`
+  margin-right: 5px;
 `;
 const Wrapper__top = styled.div`
   display: flex;
+  align-items: center;
   margin-bottom: 70px;
-`;
-const LeftBox = styled.div`
-  margin-right: 20px;
-  position: relative;
-`;
-
-const Img = styled.img`
-  width: 450px;
-  height: 600px;
-`;
-
-const fadeInOut = keyframes`
-  0%{
-    opacity: 0;
-  }
-   30%{
-    opacity: 1;
-  }
- 70%{
-  opacity: 1;
- }
-  100%{
-    opacity: 0;
-  }
-`;
-
-const ChangeImgs = styled.img`
-  width: 250px;
-  height: 520px;
-  position: absolute;
-  right: 73px;
-  top: 30px;
-  animation: ${fadeInOut} 4s ease-in-out;
-`;
-
-const RightBox = styled.div`
+  color: gray;
   width: 360px;
-  height: 580px;
-  box-sizing: border-box;
 `;
+
+const RightBox = styled.div``;
 
 const LoginBox = styled.div`
   display: flex;
@@ -68,7 +47,7 @@ const LoginBox = styled.div`
   align-items: center;
   flex-direction: column;
   border: 1px solid ${borderColor};
-  padding-bottom: 20px;
+
   .logo {
     width: 60%;
     margin: 30px 0px;
@@ -76,36 +55,58 @@ const LoginBox = styled.div`
   a {
     text-decoration: none;
   }
-  .facebook {
-    color: #4267b2;
-  }
+
   .forgot_password {
     margin-top: 20px;
     font-size: 12px;
     color: #01376b;
+  }
+  span {
+    font-size: 20px;
+  }
+`;
+const BoxTop = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 286px;
+  border-bottom: 1px solid ${borderColor};
+  position: relative;
+  margin-bottom: 20px;
+  button {
+    margin: 20px 0;
+  }
+  #or {
+    position: absolute;
+    bottom: -10px;
+    background-color: white;
+    padding: 0 20px;
   }
 `;
 const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 80%;
-  border-bottom: 1px solid ${borderColor};
-  padding-bottom: 30px;
+
   position: relative;
   margin-bottom: 30px;
-  button {
-    background-color: #0095f6;
-    border: none;
-    padding: 8px;
-    border-radius: 8px;
-    cursor: pointer;
+
+  div {
+    margin-bottom: 20px;
   }
-  #or {
-    position: absolute;
-    bottom: -10px;
-    left: 40%;
-    background-color: white;
-    padding: 0 20px;
+  span {
+    width: 100%;
+    font-size: 12px;
+    font-weight: 400;
+    color: gray;
+    text-align: center;
+  }
+  a {
+    display: inline-block;
+    color: darkblue;
+    font-size: 15px;
+    margin-left: 5px;
   }
 `;
 const Input = styled.input`
@@ -145,52 +146,43 @@ const DownloadApp = styled.div`
   }
 `;
 
-function Login() {
-  const [number, setNumber] = useState(1);
-  const width = useRecoilValue(widthSize);
-
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      setNumber((current) => (current === 3 ? 1 : current + 1));
-    }, 4000);
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [number]);
-
+function Signup() {
   return (
     <Wrapper>
       <Wrapper__top>
-        {width < 900 ? (
-          <></>
-        ) : (
-          <LeftBox>
-            <Img src={`/img/loginImgFrame.png`} />
-            <ChangeImgs key={number} src={`/img/loginImg${number}.png`} />
-          </LeftBox>
-        )}
-
         <RightBox>
           <LoginBox>
-            <img className="logo" src={`/img/Instagram_logo.png`} />
-            <LoginForm>
-              <Input placeholder="전화번호, 사용자 이름 또는 이메일" />
-              <Input placeholder="비밀번호" type="password" />
-              <button>로그인</button>
+            <BoxTop>
+              <img className="logo" src={`/img/Instagram_logo.png`} />
+              <span>친구들의 사진과 동영상을 보려면 가입하세요.</span>
+              <button>
+                <a href="/" className="facebook">
+                  <FacebookIcon icon={faSquareFacebook}></FacebookIcon>
+                  Facebook으로 로그인
+                </a>
+              </button>
               <div id="or">또는</div>
+            </BoxTop>
+            <LoginForm>
+              <Input placeholder="휴대폰 번호 또는 이메일 주소" />
+              <Input placeholder="성명" />
+              <Input placeholder="사용자 이름" />
+              <Input placeholder="비밀번호" type="password" />
+              <div>
+                <span>
+                  저희 서비스를 이용하는 사람이 회원님의 연락처 정보를
+                  Instagrm에 업로드 했을수도 있습니다.
+                </span>
+
+                <a href="/signup">더 알아보기</a>
+              </div>
+              <button>가입</button>
             </LoginForm>
-            <a href="/" className="facebook">
-              <FontAwesomeIcon icon={faSquareFacebook}></FontAwesomeIcon>
-              Facebook으로 로그인
-            </a>
-            <a href="/" className="forgot_password">
-              비밀번호를 잊으셨나요?
-            </a>
           </LoginBox>
 
           <AccountBox>
-            <span>계정이 없으신가요?</span>
-            <a href="/signup">가입하기</a>
+            <span>계정이 있으신가요?</span>
+            <a href="/">로그인</a>
           </AccountBox>
           <DownloadApp>
             <div className="title">앱을 다운로드하세요</div>
@@ -209,4 +201,5 @@ function Login() {
     </Wrapper>
   );
 }
-export default Login;
+
+export default Signup;
