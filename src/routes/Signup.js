@@ -2,16 +2,22 @@ import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 import Footer from "../components/Footer";
+import { useForm } from "react-hook-form";
+import {
+  faCheckCircle,
+  faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 const borderColor = "#d6d6d6";
 
 const Wrapper = styled.div`
+  min-height: 720px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 90vh;
   position: relative;
   margin-top: 50px;
   button {
@@ -109,12 +115,25 @@ const LoginForm = styled.form`
     margin-left: 5px;
   }
 `;
+
+const InputBox = styled.div`
+  position: relative;
+  display: flex;
+  height: 20px;
+`;
 const Input = styled.input`
-  height: 30px;
   padding: 0px 10px;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   background-color: #fafafa;
   border: 1px solid ${borderColor};
+  width: 100%;
+`;
+
+const InputValidation = styled.span`
+  display: flex;
+  position: absolute;
+  left: 250px;
+  top: 10px;
 `;
 
 const AccountBox = styled.div`
@@ -147,6 +166,20 @@ const DownloadApp = styled.div`
 `;
 
 function Signup() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+  });
+  const { name, userId, email, password } = watch();
+
+  const onValid = (data) => {
+    console.log(email);
+  };
+
   return (
     <Wrapper>
       <Wrapper__top>
@@ -163,11 +196,94 @@ function Signup() {
               </button>
               <div id="or">또는</div>
             </BoxTop>
-            <LoginForm>
-              <Input placeholder="휴대폰 번호 또는 이메일 주소" />
-              <Input placeholder="성명" />
-              <Input placeholder="사용자 이름" />
-              <Input placeholder="비밀번호" type="password" />
+            <LoginForm onSubmit={handleSubmit(onValid)}>
+              <InputBox>
+                <Input
+                  {...register("email", {
+                    required: true,
+                    pattern: {
+                      value: /^(?:\d{3}-\d{4}-\d{4}|\w+@\w+\.\w{2,3})$/,
+                      message: "asd",
+                    },
+                  })}
+                  placeholder="휴대폰 번호 또는 이메일 주소"
+                />
+                <InputValidation>
+                  {errors.email ? (
+                    <FontAwesomeIcon
+                      icon={faTimesCircle}
+                      style={{ color: "red", fontSize: "20px" }}
+                    />
+                  ) : null}
+                  {!errors.email && email ? (
+                    <FontAwesomeIcon
+                      icon={faCheckCircle}
+                      style={{ fontSize: "20px" }}
+                    />
+                  ) : null}
+                </InputValidation>
+              </InputBox>
+              <InputBox>
+                <Input
+                  {...register("name", { required: "Add Name" })}
+                  placeholder="성명"
+                />
+                <InputValidation>
+                  {errors.name ? (
+                    <FontAwesomeIcon
+                      icon={faTimesCircle}
+                      style={{ color: "red", fontSize: "20px" }}
+                    />
+                  ) : null}
+                  {!errors.name && name ? (
+                    <FontAwesomeIcon
+                      icon={faCheckCircle}
+                      style={{ fontSize: "20px" }}
+                    />
+                  ) : null}
+                </InputValidation>
+              </InputBox>
+              <InputBox>
+                <Input
+                  {...register("userId", { required: "Add User ID" })}
+                  placeholder="사용자 이름"
+                />
+                <InputValidation>
+                  {errors.userId ? (
+                    <FontAwesomeIcon
+                      icon={faTimesCircle}
+                      style={{ color: "red", fontSize: "20px" }}
+                    />
+                  ) : null}
+                  {!errors.userId && userId ? (
+                    <FontAwesomeIcon
+                      icon={faCheckCircle}
+                      style={{ fontSize: "20px" }}
+                    />
+                  ) : null}
+                </InputValidation>
+              </InputBox>
+              <InputBox>
+                <Input
+                  {...register("password", { required: "Add Password" })}
+                  placeholder="비밀번호"
+                  type="password"
+                />
+                <InputValidation>
+                  {errors.password ? (
+                    <FontAwesomeIcon
+                      icon={faTimesCircle}
+                      style={{ color: "red", fontSize: "20px" }}
+                    />
+                  ) : null}
+                  {!errors.password && password ? (
+                    <FontAwesomeIcon
+                      icon={faCheckCircle}
+                      style={{ fontSize: "20px" }}
+                    />
+                  ) : null}
+                </InputValidation>
+              </InputBox>
               <div>
                 <span>
                   저희 서비스를 이용하는 사람이 회원님의 연락처 정보를
