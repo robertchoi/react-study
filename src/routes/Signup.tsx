@@ -176,7 +176,7 @@ function Signup() {
   });
   const { name, userId, email, password } = watch();
 
-  const onValid = (data) => {
+  const onValid = (data: any) => {
     console.log(email);
   };
 

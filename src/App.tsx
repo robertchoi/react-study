@@ -1,11 +1,8 @@
 import { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Router from "./Router";
 import { useRecoilState } from "recoil";
 import { createGlobalStyle } from "styled-components";
 import { widthSize } from "./atoms";
-import About from "./routes/About";
-import Login from "./routes/Login";
-import Signup from "./routes/Signup";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -57,7 +54,6 @@ a{
   color: inherit;
 }
 `;
-
 function App() {
   const [width, setWidth] = useRecoilState(widthSize);
 
@@ -75,13 +71,7 @@ function App() {
 
   return (
     <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Login />}></Route>
-          <Route path="/about" element={<About />}></Route>
-          <Route path="/signup" element={<Signup />}></Route>
-        </Routes>
-      </Router>
+      <Router />
       <GlobalStyle />
     </>
   );
