@@ -28,7 +28,11 @@ const fadeOutAnimation = keyframes`
   }
 `;
 
-const MenuBar = styled.div`
+interface IMenuProps {
+  isHide: boolean;
+}
+
+const MenuBar = styled.div<IMenuProps>`
   font-size: 30px;
   display: flex;
   justify-content: space-between;
@@ -56,7 +60,7 @@ const MenuRight = styled.div`
 const Contents = styled.div`
   margin-top: 100px;
 `;
-const getContentMainFontSize = (widthSize) => {
+const getContentMainFontSize = (widthSize: number) => {
   if (widthSize > 1100) {
     return "100px";
   } else if (widthSize > 800) {
@@ -106,7 +110,7 @@ function About() {
       {isHide ? (
         <></>
       ) : (
-        <MenuBar key={isHide} isHide={isHide}>
+        <MenuBar isHide={isHide}>
           <MenuLeft>
             <FontAwesomeIcon icon={faBars} />
           </MenuLeft>

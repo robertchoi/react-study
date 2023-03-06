@@ -190,7 +190,7 @@ function Login() {
 
           <AccountBox>
             <span>계정이 없으신가요?</span>
-            <a href="/">가입하기</a>
+            <a href="/signup">가입하기</a>
           </AccountBox>
           <DownloadApp>
             <div className="title">앱을 다운로드하세요</div>
