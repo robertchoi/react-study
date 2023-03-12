@@ -1,11 +1,11 @@
 import styled, { keyframes } from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import { useRecoilValue } from "recoil";
-import { loginState, widthSize } from "../atoms";
+import { widthSize } from "../atoms";
 import { KakaoLogin } from "../components/KakaoLogin";
+import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLoginButton } from "../socialLogin";
 
 const borderColor = "#d6d6d6";
 
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   position: relative;
-  margin-top: 50px;
+  margin-top: 30px;
 `;
 const Wrapper__top = styled.div`
   display: flex;
@@ -183,6 +183,7 @@ function Login() {
               <div id="or">또는</div>
             </LoginForm>
             <KakaoLogin />
+            <GoogleLoginButton />
             <a href="/" className="forgot_password">
               비밀번호를 잊으셨나요?
             </a>

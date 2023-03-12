@@ -1,9 +1,9 @@
-import { faComment } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import styled from "styled-components";
 import { loginState } from "./atoms";
 
 interface FinishKakaoLoginProps {
@@ -21,7 +21,6 @@ export interface IKakaoData {
 }
 export const FinishKakaoLogin = ({ code }: FinishKakaoLoginProps) => {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
-  const navigate = useNavigate();
   const [kakaoData, setKakaoData] = useState<IKakaoData>();
 
   useEffect(() => {
@@ -45,7 +44,6 @@ export const FinishKakaoLogin = ({ code }: FinishKakaoLoginProps) => {
           },
         })
       ).json();
-      console.log(kakaoTokenRequest);
 
       if ("access_token" in kakaoTokenRequest) {
         const { access_token } = kakaoTokenRequest;
@@ -69,6 +67,7 @@ export const FinishKakaoLogin = ({ code }: FinishKakaoLoginProps) => {
     setIsLoggedIn(true);
   }
 
+  const logOut = () => setIsLoggedIn(false);
   return (
     <>
       <h1 style={{ fontSize: 30 }}>Logged In</h1>
@@ -78,10 +77,58 @@ export const FinishKakaoLogin = ({ code }: FinishKakaoLoginProps) => {
         style={{ width: 200, height: 200 }}
       />
       <h1>{kakaoData?.kakao_account.email}</h1>
-
-      <Link to="/">
-        <button>Go Back</button>
+      <Link to={"/"}>
+        <button onClick={logOut}>Go Back</button>
       </Link>
     </>
+  );
+};
+
+const GoogleLoginWrapper = styled.div`
+  width: 100%;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  border: 1px solid #d3d3d3;
+  border-radius: 7px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 35px;
+  font-size: 15px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f3f3f3;
+  }
+  img {
+    width: 20px;
+    margin-right: 10px;
+  }
+`;
+
+export const GoogleLoginButton = () => {
+  const setIsLoggedIn = useSetRecoilState(loginState);
+  const googleSocialLogin = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      console.log(codeResponse);
+      setIsLoggedIn(true);
+    },
+    onError: (codeResponse) => console.log(codeResponse),
+    flow: "auth-code",
+    redirect_uri: "http://127.0.0.1:8080/auth/google/callback",
+  });
+
+  return (
+    <GoogleLoginWrapper onClick={googleSocialLogin}>
+      <div className="social_login_image_box">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/588px-Google_%22G%22_Logo.svg.png?20230305195327"
+          alt="google_login"
+        />
+      </div>
+      <div className="social_login_text_box">구글로 시작하기</div>
+      <div className="social_login_blank_box"> </div>
+    </GoogleLoginWrapper>
   );
 };

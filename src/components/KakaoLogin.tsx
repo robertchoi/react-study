@@ -5,18 +5,25 @@ import styled from "styled-components";
 const KakaoIcon = styled(FontAwesomeIcon)`
   margin-right: 10px;
   scale: 1.3;
+  width: 20px;
 `;
 
 const KakaoButton = styled.button`
   width: 100%;
-  margin: 20px 0;
+  font-size: 15px;
+  margin-top: 20px;
   background-color: #ffeb00;
   height: 35px;
   border-radius: 10px;
   border: none;
+  padding-left: 10px;
   cursor: pointer;
   &:hover {
     background-color: #ffdd00;
+  }
+  a {
+    display: flex;
+    justify-content: space-between;
   }
 `;
 
@@ -35,6 +42,7 @@ export const KakaoLogin = () => {
       <a href={finalUrl}>
         <KakaoIcon icon={faComment}></KakaoIcon>
         Kakao로 로그인
+        <div className="social_login_blank_box"> </div>
       </a>
     </KakaoButton>
   );
