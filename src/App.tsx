@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import Router from "./Router";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { createGlobalStyle } from "styled-components";
-import { widthSize } from "./atoms";
+import { loginState, widthSize } from "./atoms";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -56,11 +56,8 @@ a{
 `;
 function App() {
   const [width, setWidth] = useRecoilState(widthSize);
-
-  useEffect(() => {
-    console.log(width);
-  }, [width]);
-
+  const isLoggedIn = useRecoilValue(loginState);
+  console.log(isLoggedIn);
   useEffect(() => {
     const handleResize = () => {
       setWidth(window.innerWidth);

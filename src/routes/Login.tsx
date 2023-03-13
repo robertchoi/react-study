@@ -1,10 +1,11 @@
 import styled, { keyframes } from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import { useRecoilValue } from "recoil";
 import { widthSize } from "../atoms";
+import { KakaoLogin } from "../components/KakaoLogin";
+import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLoginButton } from "../socialLogin";
 
 const borderColor = "#d6d6d6";
 
@@ -16,7 +17,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   position: relative;
-  margin-top: 50px;
+  margin-top: 30px;
 `;
 const Wrapper__top = styled.div`
   display: flex;
@@ -68,7 +69,8 @@ const LoginBox = styled.div`
   align-items: center;
   flex-direction: column;
   border: 1px solid ${borderColor};
-  padding-bottom: 20px;
+  padding: 30px;
+
   .logo {
     width: 60%;
     margin: 30px 0px;
@@ -88,7 +90,7 @@ const LoginBox = styled.div`
 const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
   border-bottom: 1px solid ${borderColor};
   padding-bottom: 30px;
   position: relative;
@@ -147,6 +149,7 @@ const DownloadApp = styled.div`
 
 function Login() {
   const [number, setNumber] = useState(1);
+
   const width = useRecoilValue(widthSize);
 
   useEffect(() => {
@@ -179,10 +182,8 @@ function Login() {
               <button>로그인</button>
               <div id="or">또는</div>
             </LoginForm>
-            <a href="/" className="facebook">
-              <FontAwesomeIcon icon={faSquareFacebook}></FontAwesomeIcon>
-              Facebook으로 로그인
-            </a>
+            <KakaoLogin />
+            <GoogleLoginButton />
             <a href="/" className="forgot_password">
               비밀번호를 잊으셨나요?
             </a>

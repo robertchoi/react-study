@@ -1,18 +1,17 @@
 import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 import Footer from "../components/Footer";
 import { useForm } from "react-hook-form";
 import {
   faCheckCircle,
   faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import { KakaoLogin } from "../components/KakaoLogin";
+import { GoogleLoginButton } from "../socialLogin";
 
 const borderColor = "#d6d6d6";
 
 const Wrapper = styled.div`
-  min-height: 720px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,9 +33,7 @@ const Wrapper = styled.div`
     height: 35px;
   }
 `;
-const FacebookIcon = styled(FontAwesomeIcon)`
-  margin-right: 5px;
-`;
+
 const Wrapper__top = styled.div`
   display: flex;
   align-items: center;
@@ -81,7 +78,9 @@ const BoxTop = styled.div`
   position: relative;
   margin-bottom: 20px;
   button {
-    margin: 20px 0;
+    margin-top: 20px;
+    background-color: #ffeb00;
+    color: black;
   }
   #or {
     position: absolute;
@@ -188,12 +187,8 @@ function Signup() {
             <BoxTop>
               <img className="logo" src={`/img/Instagram_logo.png`} />
               <span>친구들의 사진과 동영상을 보려면 가입하세요.</span>
-              <button>
-                <a href="/" className="facebook">
-                  <FacebookIcon icon={faSquareFacebook}></FacebookIcon>
-                  Facebook으로 로그인
-                </a>
-              </button>
+              <KakaoLogin />
+              <GoogleLoginButton />
               <div id="or">또는</div>
             </BoxTop>
             <LoginForm onSubmit={handleSubmit(onValid)}>

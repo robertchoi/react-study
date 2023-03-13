@@ -72,7 +72,7 @@ const getContentMainFontSize = (widthSize: number) => {
 
 const Content__Main = styled.div`
   display: flex;
-  font-size: ${(props) => getContentMainFontSize(useRecoilValue(widthSize))};
+  font-size: ${() => getContentMainFontSize(useRecoilValue(widthSize))};
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 80px;

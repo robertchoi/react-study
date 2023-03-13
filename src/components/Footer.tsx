@@ -1,6 +1,7 @@
 import styled, { keyframes } from "styled-components";
 
 const FooterDiv = styled.div`
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
