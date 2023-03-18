@@ -9,6 +9,8 @@ import {
 import { KakaoLogin } from "../components/KakaoLogin";
 import { GoogleLoginButton } from "../socialLogin";
 
+import sha256 from "crypto-js/sha256";
+
 const borderColor = "#d6d6d6";
 
 const Wrapper = styled.div`
@@ -176,7 +178,28 @@ function Signup() {
   const { name, userId, email, password } = watch();
 
   const onValid = (data: any) => {
-    console.log(email);
+    data.password = sha256(password).toString();
+    sendSignUpData(data);
+  };
+
+  const sendSignUpData = async (data: any) => {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
+    console.log(requestOptions);
+
+    const response = await fetch(
+      "https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/insert",
+      requestOptions
+    );
+    const loginData = await response.json();
+
+    console.log(loginData);
   };
 
   return (
