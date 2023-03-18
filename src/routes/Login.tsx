@@ -4,8 +4,7 @@ import Footer from "../components/Footer";
 import { useRecoilValue } from "recoil";
 import { widthSize } from "../atoms";
 import { KakaoLogin } from "../components/KakaoLogin";
-import { GoogleLogin } from "@react-oauth/google";
-import { GoogleLoginButton } from "../socialLogin";
+import { GoogleLoginButton } from "../components/GoogleLogin";
 
 const borderColor = "#d6d6d6";
 
@@ -149,7 +148,6 @@ const DownloadApp = styled.div`
 
 function Login() {
   const [number, setNumber] = useState(1);
-
   const width = useRecoilValue(widthSize);
 
   useEffect(() => {
@@ -210,4 +208,5 @@ function Login() {
     </Wrapper>
   );
 }
+
 export default Login;
