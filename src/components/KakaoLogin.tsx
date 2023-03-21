@@ -1,12 +1,12 @@
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { Link } from "react-router-dom";
-
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import styled from "styled-components";
-import { loginState } from "../atoms";
+import { loginState, UserData } from "../atoms";
+import axios from "axios";
+import qs from "qs";
 
 const KakaoIcon = styled(FontAwesomeIcon)`
   margin-right: 10px;
@@ -58,19 +58,16 @@ interface FinishKakaoLoginProps {
   code: string | null;
 }
 
-export interface IKakaoData {
+export interface IUserData {
   id: number;
-  kakao_account: { email: string; gender: boolean };
-  properties: {
-    nickname: string;
-    profile_image: string;
-    thumbnail_image: string;
-  };
+  email: string;
+  nickname: string;
+  profile_image: string;
 }
 export const FinishKakaoLogin = ({ code }: FinishKakaoLoginProps) => {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
-  const [kakaoData, setKakaoData] = useState<IKakaoData>();
-
+  const navigate = useNavigate();
+  const [userData, setUserData] = useRecoilState<IUserData>(UserData);
   useEffect(() => {
     const baseUrl = "https://kauth.kakao.com/oauth/token";
     const config = {
@@ -84,50 +81,77 @@ export const FinishKakaoLogin = ({ code }: FinishKakaoLoginProps) => {
     const finalUrl = `${baseUrl}?${params}`;
 
     const fetchKakaoData = async () => {
-      const kakaoTokenRequest = await (
-        await fetch(finalUrl, {
+      const kakaoTokenRequest = await axios.post(
+        finalUrl,
+        {},
+        {
           method: "POST",
           headers: {
             "Content-type": "application/json",
           },
-        })
-      ).json();
+        }
+      );
 
-      if ("access_token" in kakaoTokenRequest) {
-        const { access_token } = kakaoTokenRequest;
-        const userData = await (
-          await fetch("https://kapi.kakao.com/v2/user/me", {
+      if ("access_token" in kakaoTokenRequest.data) {
+        const { access_token } = kakaoTokenRequest.data;
+        const userDataFromKakao = await axios.get(
+          "https://kapi.kakao.com/v2/user/me",
+          {
             headers: {
               Authorization: `Bearer ${access_token}`,
               "Content-type": "application/json",
             },
+          }
+        );
+
+        //recoil 전역 변수에 유저 데이터 저장 (꼭 필요한지?)
+        const {
+          id,
+          kakao_account: { email },
+          properties: { profile_image, nickname },
+        } = userDataFromKakao.data;
+
+        const loggedInUserData: IUserData = {
+          id,
+          email,
+          nickname,
+          profile_image,
+        };
+        console.log(loggedInUserData);
+
+        setUserData(loggedInUserData);
+
+        //Session Storage에 userdata 저장
+        sessionStorage.setItem("userData", JSON.stringify(loggedInUserData));
+        setIsLoggedIn(true);
+        const data = qs.stringify({
+          email: loggedInUserData.email,
+          password: "00000000",
+        });
+
+        const config = {
+          method: "post",
+          maxBodyLength: Infinity,
+          url: "https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/insert",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          data: data,
+        };
+
+        axios
+          .request(config)
+          .then((response) => {
+            console.log(JSON.stringify(response.data));
           })
-        ).json();
-        setKakaoData(userData);
+          .catch((error) => {
+            console.log(error);
+          });
+        navigate("/");
       }
     };
     fetchKakaoData();
   }, [code]);
 
-  if (!code) {
-    console.log("code not found");
-  } else {
-    setIsLoggedIn(true);
-  }
-
-  const logOut = () => setIsLoggedIn(false);
-  return (
-    <>
-      <h1 style={{ fontSize: 30 }}>Logged In</h1>
-      <h1>{kakaoData?.properties.nickname}</h1>
-      <img
-        src={kakaoData?.properties.profile_image}
-        style={{ width: 200, height: 200 }}
-      />
-      <h1>{kakaoData?.kakao_account.email}</h1>
-      <Link to={"/"}>
-        <button onClick={logOut}>Go Back</button>
-      </Link>
-    </>
-  );
+  return <></>;
 };

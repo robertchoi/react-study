@@ -1,9 +1,18 @@
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import {
+  CodeResponse,
+  GoogleLogin,
+  TokenResponse,
+  useGoogleLogin,
+} from "@react-oauth/google";
 
-import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { loginState } from "../atoms";
+import { loginState, UserData } from "../atoms";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import qs from "qs";
+import { useNavigate } from "react-router-dom";
+import { IUserData } from "./KakaoLogin";
 
 const GoogleLoginWrapper = styled.div`
   width: 100%;
@@ -30,18 +39,69 @@ const GoogleLoginWrapper = styled.div`
 
 export const GoogleLoginButton = () => {
   const setIsLoggedIn = useSetRecoilState(loginState);
-  const googleSocialLogin = useGoogleLogin({
-    onSuccess: (codeResponse) => {
-      console.log(codeResponse);
-      setIsLoggedIn(true);
-    },
-    onError: (codeResponse) => console.log(codeResponse),
-    flow: "auth-code",
-    redirect_uri: "http://127.0.0.1:8080/auth/google/callback",
+  const [user, setUser] = useState<TokenResponse>();
+
+  const [userData, setUserData] = useRecoilState<IUserData>(UserData);
+  const navigate = useNavigate();
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => setUser(codeResponse),
+    onError: (error) => console.log("Login Failed:", error),
   });
 
+  useEffect(() => {
+    if (user) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.access_token}`,
+              Accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          const { id, email, picture, name } = res.data;
+
+          const loggedInUserData: IUserData = {
+            id,
+            email,
+            nickname: name,
+            profile_image: picture,
+          };
+          setUserData(loggedInUserData);
+          sessionStorage.setItem("userData", JSON.stringify(loggedInUserData));
+          setIsLoggedIn(true);
+          const data = qs.stringify({
+            email: res.data.email,
+            password: "00000000",
+          });
+          const config = {
+            method: "post",
+            maxBodyLength: Infinity,
+            url: "https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/insert",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            data: data,
+          };
+          axios
+            .request(config)
+            .then((response) => {
+              console.log(JSON.stringify(response.data));
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          navigate("/");
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [user]);
+
   return (
-    <GoogleLoginWrapper onClick={googleSocialLogin}>
+    <GoogleLoginWrapper onClick={() => login()}>
       <div className="social_login_image_box">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/588px-Google_%22G%22_Logo.svg.png?20230305195327"

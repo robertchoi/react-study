@@ -1,6 +1,7 @@
 import { atom } from "recoil";
-import { IKakaoData } from "./socialLogin";
+
 import { recoilPersist } from "recoil-persist";
+import { IUserData } from "./components/KakaoLogin";
 const { persistAtom } = recoilPersist();
 
 export const widthSize = atom({
@@ -14,16 +15,13 @@ export const loginState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const UserData = atom<IKakaoData>({
+export const UserData = atom<IUserData>({
   key: "UserData",
   default: {
     id: 0,
-    kakao_account: { email: "", gender: true },
-    properties: {
-      nickname: "",
-      profile_image: "",
-      thumbnail_image: "",
-    },
+    email: "",
+    nickname: "",
+    profile_image: "",
   },
   effects_UNSTABLE: [persistAtom],
 });

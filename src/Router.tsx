@@ -20,8 +20,6 @@ function Router() {
           element={isLoggedIn ? <Home /> : <Signup />}
         ></Route>
         <Route path={"/kakao-login"} element={<Check />}></Route>
-        <Route path={"/redirect"} element={<Home />}></Route>
-
         <Route path={"/:wrong"} element={<Wrong />}></Route>
       </Routes>
     </BrowserRouter>

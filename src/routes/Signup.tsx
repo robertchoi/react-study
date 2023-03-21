@@ -7,7 +7,7 @@ import {
   faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { KakaoLogin } from "../components/KakaoLogin";
-import { GoogleLoginButton } from "../socialLogin";
+import { GoogleLoginButton } from "../components/GoogleLogin";
 
 const borderColor = "#d6d6d6";
 
