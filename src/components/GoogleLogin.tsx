@@ -12,7 +12,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
-import { IUserData } from "./KakaoLogin";
+import { IUserData, IUserDataSaveData } from "./KakaoLogin";
+import { postDataAuth, postInsertUserData, putUserData } from "./fetch";
 
 const GoogleLoginWrapper = styled.div`
   width: 100%;
@@ -61,7 +62,7 @@ export const GoogleLoginButton = () => {
             },
           }
         )
-        .then((res) => {
+        .then(async (res) => {
           const { id, email, picture, name } = res.data;
 
           const loggedInUserData: IUserData = {
@@ -70,30 +71,30 @@ export const GoogleLoginButton = () => {
             nickname: name,
             profile_image: picture,
           };
+          const loggedInUserDataAll: IUserDataSaveData = {
+            nickname: name,
+            birthday: "asd",
+            phone: "",
+            gender: "male",
+            cities_code: 0,
+            address: "",
+            profile_image: picture,
+          };
           setUserData(loggedInUserData);
           sessionStorage.setItem("userData", JSON.stringify(loggedInUserData));
           setIsLoggedIn(true);
-          const data = qs.stringify({
-            email: res.data.email,
+          const data = {
+            email,
             password: "00000000",
-          });
-          const config = {
-            method: "post",
-            maxBodyLength: Infinity,
-            url: "https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/insert",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            data: data,
+            profile_img: picture,
           };
-          axios
-            .request(config)
-            .then((response) => {
-              console.log(JSON.stringify(response.data));
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+
+          const userDataResult = await putUserData(loggedInUserDataAll, email);
+          const insertResult = await postInsertUserData(data);
+
+          console.log(userDataResult?.data);
+          console.log(insertResult);
+
           navigate("/");
         })
         .catch((err) => console.log(err));
