@@ -5,6 +5,14 @@ import { loginState, UserData } from "../atoms";
 import { IUserData } from "../components/KakaoLogin";
 import axios from "axios";
 import qs from "qs";
+import { postDataAuth } from "../components/api";
+import Nav from "../components/NavBar";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  display: flex;
+`;
+const Info = styled.div``;
 
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(loginState);
@@ -17,17 +25,29 @@ function Home() {
     sessionStorage.removeItem("userData");
     googleLogout();
   };
+  // fetchDataAuth()
 
+  const data = {
+    email: userData.email,
+    password: "00000000",
+  };
+  postDataAuth(data);
   return (
-    <>
-      <h1 style={{ fontSize: 30 }}>Logged In</h1>
-      <h1>{userData?.nickname}</h1>
-      <img src={userData?.profile_image} style={{ width: 200, height: 200 }} />
-      <h1>{userData?.email}</h1>
-      <Link to={"/"}>
-        <button onClick={logOut}>Go Back</button>
-      </Link>
-    </>
+    <Wrapper>
+      <Nav />
+      <Info>
+        <h1 style={{ fontSize: 30 }}>Logged In</h1>
+        <h1>{userData?.nickname}</h1>
+        <img
+          src={userData?.profile_image}
+          style={{ width: 200, height: 200 }}
+        />
+        <h1>{userData?.email}</h1>
+        <Link to={"/"}>
+          <button onClick={logOut}>Go Back</button>
+        </Link>
+      </Info>
+    </Wrapper>
   );
 }
 

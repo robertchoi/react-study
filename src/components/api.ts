@@ -66,3 +66,52 @@ export const putUserData = async (
     console.error(error);
   }
 };
+
+interface iContents {
+  email: string;
+  title: string;
+  content: string;
+  image: string;
+}
+export const postContents = async (contents: iContents) => {
+  try {
+    const response = await axios.post(
+      `https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/post`,
+      contents
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export interface iReadPost {
+  id: number;
+}
+export const readPost = async (data: iReadPost) => {
+  try {
+    const response = await axios.post(
+      `https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/readPost`,
+      data
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export interface iReadPosts {
+  start: number;
+  listn: number;
+}
+export const readPosts = async (data: iReadPosts) => {
+  try {
+    const response = await axios.post(
+      `https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/readPosts`,
+      data
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};

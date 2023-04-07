@@ -5,6 +5,8 @@ import { useRecoilValue } from "recoil";
 import { widthSize } from "../atoms";
 import { KakaoLogin } from "../components/KakaoLogin";
 import { GoogleLoginButton } from "../components/GoogleLogin";
+import { postDataAuth } from "../components/api";
+import Cookies from "js-cookie";
 
 const borderColor = "#d6d6d6";
 
@@ -154,11 +156,25 @@ function Login() {
     const timerId = setTimeout(() => {
       setNumber((current) => (current === 3 ? 1 : current + 1));
     }, 4000);
+
     return () => {
       clearTimeout(timerId);
     };
   }, [number]);
+  const fetchDataAsync = async () => {
+    const data = {
+      email: "yjs6300@kakao.com",
+      password: "00000000",
+    };
+    const fetchedData = await postDataAuth(data);
+    if (fetchedData) {
+      Cookies.set("jwtToken", fetchedData?.token);
+    } else {
+      console.log("User not found");
+    }
+  };
 
+  fetchDataAsync();
   return (
     <Wrapper>
       <Wrapper__top>

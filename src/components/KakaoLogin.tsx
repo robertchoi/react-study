@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { loginState, UserData } from "../atoms";
 import axios from "axios";
 import qs from "qs";
-import { postDataAuth, postInsertUserData, putUserData } from "./fetch";
+import { postDataAuth, postInsertUserData, putUserData } from "./api";
 
 const KakaoIcon = styled(FontAwesomeIcon)`
   margin-right: 10px;

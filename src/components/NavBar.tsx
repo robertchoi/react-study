@@ -53,7 +53,9 @@ export default function Nav() {
         <Icon icon={faVideo} />
         <Icon icon={faPaperPlane} />
         <Icon icon={faHeart} />
-        <Icon icon={faPlusSquare} />
+        <Link to="/post">
+          <Icon icon={faPlusSquare} />
+        </Link>
       </NavBtns>
       <More>
         <Icon icon={faBars} />

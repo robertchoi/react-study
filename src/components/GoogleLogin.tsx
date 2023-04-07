@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 import { IUserData, IUserDataSaveData } from "./KakaoLogin";
-import { postDataAuth, postInsertUserData, putUserData } from "./fetch";
+import { postDataAuth, postInsertUserData, putUserData } from "./api";
 
 const GoogleLoginWrapper = styled.div`
   width: 100%;
@@ -93,7 +93,8 @@ export const GoogleLoginButton = () => {
           const insertResult = await postInsertUserData(data);
 
           console.log(userDataResult?.data);
-          console.log(insertResult);
+          console.log("user inserted", insertResult);
+          console.log(data);
 
           navigate("/");
         })
