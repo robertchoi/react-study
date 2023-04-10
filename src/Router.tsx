@@ -8,6 +8,7 @@ import Login from "./routes/Login";
 import Signup from "./routes/Signup";
 import Wrong from "./routes/Wrong";
 import Post from "./routes/Post";
+import List from "./routes/List";
 
 function Router() {
   const isLoggedIn = useRecoilValue(loginState);
@@ -22,6 +23,7 @@ function Router() {
         ></Route>
         <Route path={"/kakao-login"} element={<Check />}></Route>
         <Route path={"/post"} element={<Post />}></Route>
+        <Route path={"/list"} element={<List />}></Route>
         <Route path={"/:wrong"} element={<Wrong />}></Route>
       </Routes>
     </BrowserRouter>

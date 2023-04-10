@@ -4,6 +4,7 @@ import {
   faCompass,
   faHeart,
   faHouse,
+  faList,
   faPaperPlane,
   faPlusSquare,
   faSearch,
@@ -18,7 +19,7 @@ const Wrapper = styled.div`
   color: white;
   font-size: 25px;
   height: 100vh;
-  width: 70px;
+  min-width: 70px;
   div {
     display: flex;
     flex-direction: column;
@@ -50,7 +51,9 @@ export default function Nav() {
           <Icon icon={faHouse} />
         </Link>
         <Icon icon={faSearch} />
-        <Icon icon={faVideo} />
+        <Link to="/list">
+          <Icon icon={faList} />
+        </Link>
         <Icon icon={faPaperPlane} />
         <Icon icon={faHeart} />
         <Link to="/post">

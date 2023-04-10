@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { IUserDataSaveData } from "./KakaoLogin";
-
+import qs from "qs";
 interface IFetchedData {
   password: string;
   email: string;
@@ -86,32 +86,49 @@ export const postContents = async (contents: iContents) => {
 };
 
 export interface iReadPost {
-  id: number;
+  id: string;
 }
 export const readPost = async (data: iReadPost) => {
-  try {
-    const response = await axios.post(
-      `https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/readPost`,
-      data
-    );
-    return response;
-  } catch (error) {
-    console.error(error);
-  }
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: "https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/readPost",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    params: data,
+  };
+
+  axios
+    .request(config)
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export interface iReadPosts {
-  start: number;
-  listn: number;
+  start: string;
+  listn: string;
 }
 export const readPosts = async (data: iReadPosts) => {
-  try {
-    const response = await axios.post(
-      `https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/readPosts`,
-      data
-    );
-    return response;
-  } catch (error) {
-    console.error(error);
-  }
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: "https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/readPosts",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: data,
+  };
+  axios
+    .request(config)
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
