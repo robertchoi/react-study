@@ -3,6 +3,7 @@ import Router from "./Router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { createGlobalStyle } from "styled-components";
 import { loginState, widthSize } from "./atoms";
+import Cookies from "js-cookie";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -56,8 +57,7 @@ a{
 `;
 function App() {
   const [width, setWidth] = useRecoilState(widthSize);
-  const isLoggedIn = useRecoilValue(loginState);
-  console.log(isLoggedIn);
+
   useEffect(() => {
     const handleResize = () => {
       setWidth(window.innerWidth);
@@ -65,7 +65,9 @@ function App() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [setWidth]);
-
+  useEffect(() => {
+    console.log(Cookies.get("jwtToken"));
+  }, []);
   return (
     <>
       <Router />

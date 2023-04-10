@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useRecoilValue } from "recoil";
 import { widthSize } from "../atoms";
+import Cookies from "js-cookie";
 
 const Wrapper = styled.div`
   padding: 30px 70px;
