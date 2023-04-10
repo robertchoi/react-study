@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { UserData } from "../atoms";
+import { UserData, loginState } from "../atoms";
 import { postContents } from "../components/api";
+import { useNavigate } from "react-router-dom";
+import Nav from "../components/NavBar";
 
 const Wrapper = styled.div`
   height: 100vh;
+  display: flex;
+  min-width: 300px;
 `;
 const Form = styled.form`
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -21,6 +26,14 @@ const Form = styled.form`
 `;
 
 const Post = () => {
+  const isLoggedIn = useRecoilValue(loginState);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn !== true) {
+      navigate("/");
+    }
+  }, []);
   const { register, handleSubmit, watch } = useForm({ mode: "onSubmit" });
   const [imageData, setImageData] = useState<string | null>(null);
   const userData = useRecoilValue(UserData);
@@ -46,6 +59,7 @@ const Post = () => {
 
   return (
     <Wrapper>
+      <Nav />
       <Form onSubmit={handleSubmit(onValid)}>
         <input {...register("title", { required: true })} placeholder="title" />
         <input
