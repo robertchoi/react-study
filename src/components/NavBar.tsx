@@ -8,6 +8,7 @@ import {
   faPaperPlane,
   faPlusSquare,
   faSearch,
+  faUser,
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -58,6 +59,9 @@ export default function Nav() {
         <Icon icon={faHeart} />
         <Link to="/post">
           <Icon icon={faPlusSquare} />
+        </Link>
+        <Link to="/user">
+          <Icon icon={faUser} />
         </Link>
       </NavBtns>
       <More>
