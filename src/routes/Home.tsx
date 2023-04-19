@@ -11,6 +11,8 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  height: 100vh;
 `;
 const Info = styled.div`
   width: 100%;
@@ -40,7 +42,6 @@ function Home() {
   postDataAuth(data);
   return (
     <Wrapper>
-      <Nav />
       <Info>
         <h1 style={{ fontSize: 30 }}>Logged In</h1>
         <h1>{userData?.nickname}</h1>
@@ -53,6 +54,7 @@ function Home() {
           <button onClick={logOut}>Go Back</button>
         </Link>
       </Info>
+      <Nav />
     </Wrapper>
   );
 }

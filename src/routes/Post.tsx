@@ -46,9 +46,19 @@ const Post = () => {
     console.log(postingData);
     navigate("/list");
   };
+  useEffect(() => {
+    console.log(typeof ImageData);
+    function base64ToImage(base64Data: string, fileName: string): void {
+      const link = document.createElement("a");
+      link.href = base64Data;
+      link.download = fileName;
+      link.click();
+    }
+  }, [ImageData]);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
+
     if (file) {
       const reader = new FileReader();
       //returns Base64-encoded url
@@ -94,6 +104,9 @@ const Post = () => {
           {...register("content", { required: true })}
           placeholder="Content"
         />
+        {imageData && (
+          <img src={imageData as string} style={{ width: 200, height: 200 }} />
+        )}
         <input
           type="file"
           {...register("image")}
