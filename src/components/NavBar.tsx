@@ -8,6 +8,7 @@ import {
   faPaperPlane,
   faPlusSquare,
   faSearch,
+  faUser,
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,20 +19,20 @@ const Wrapper = styled.div`
   background-color: black;
   color: white;
   font-size: 25px;
-  height: 100vh;
-  min-width: 70px;
   div {
     display: flex;
-    flex-direction: column;
-    align-items: center;
   }
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 `;
 const Logo = styled.div`
   height: 10%;
 `;
 const NavBtns = styled.div`
-  flex-direction: column;
-  height: 80%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 `;
 const More = styled.div`
   height: 10%;
@@ -43,9 +44,6 @@ const Icon = styled(FontAwesomeIcon)`
 export default function Nav() {
   return (
     <Wrapper>
-      <Logo>
-        <Icon icon={faInstagram} />
-      </Logo>
       <NavBtns>
         <Link to="/">
           <Icon icon={faHouse} />
@@ -55,14 +53,13 @@ export default function Nav() {
           <Icon icon={faList} />
         </Link>
         <Icon icon={faPaperPlane} />
-        <Icon icon={faHeart} />
         <Link to="/post">
           <Icon icon={faPlusSquare} />
         </Link>
+        <Link to="/user">
+          <Icon icon={faUser} />
+        </Link>
       </NavBtns>
-      <More>
-        <Icon icon={faBars} />
-      </More>
     </Wrapper>
   );
 }
