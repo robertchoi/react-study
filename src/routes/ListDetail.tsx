@@ -10,12 +10,12 @@ import {
   readPost,
   readPosts,
 } from "../components/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Nav from "../components/NavBar";
 import qs from "qs";
 import { Link } from "react-router-dom";
 const Wrapper = styled.div`
-  height: 150vh;
+  height: 100vh;
   display: flex;
   min-width: 300px;
 `;
@@ -30,6 +30,11 @@ const Lists = styled.ul`
 
 const ListData = styled.li`
   border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 
   img {
     width: 100px;
@@ -51,23 +56,24 @@ interface Post {
   username: string;
 }
 
-const List = () => {
+const ListDetail = () => {
   const isLoggedIn = useRecoilValue(loginState);
   const navigate = useNavigate();
-  const [posts, setPosts] = useState<Post[]>();
+  const { id } = useParams();
+
+  const [post, setPost] = useState<Post>();
 
   useEffect(() => {
     const fetchPosts = async () => {
       if (isLoggedIn !== true) {
         navigate("/");
       } else {
-        const readPostInput: iReadPosts = {
-          start: "50",
-          listn: "10",
+        const readPostId: iReadPost = {
+          id: `${id}`,
         };
-        const result = await readPosts(readPostInput);
+        const result = await readPost(readPostId);
         if (result) {
-          setPosts(result.data.data);
+          setPost(result[0]);
         }
       }
     };
@@ -78,19 +84,18 @@ const List = () => {
     <Wrapper>
       <Nav />
       <Lists>
-        {posts &&
-          posts.map((post) => (
-            <Link key={post.id} to={`${post.id}`}>
-              <ListData>
-                <span>{post.username}</span>
-                <span>{post.id}</span>
-                <img src={post.image} />
-              </ListData>
-            </Link>
-          ))}
+        {post && (
+          <Link to={`${post.id}`}>
+            <ListData key={post.id}>
+              <span>{post.username}</span>
+              <img src={post.image} />
+              <span>{post.content}</span>
+            </ListData>
+          </Link>
+        )}
       </Lists>
     </Wrapper>
   );
 };
 
-export default List;
+export default ListDetail;

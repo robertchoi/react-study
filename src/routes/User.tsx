@@ -86,6 +86,7 @@ function User() {
   };
   const onValid = (e: any) => {
     const result = { ...e, profile_image: profileImage };
+    console.log("submit");
     updateUser(result, userData.email);
   };
 

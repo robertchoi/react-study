@@ -66,7 +66,7 @@ function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, [setWidth]);
   useEffect(() => {
-    console.log(Cookies.get("jwtToken"));
+    // console.log(Cookies.get("jwtToken"));
   }, []);
   return (
     <>

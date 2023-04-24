@@ -148,9 +148,6 @@ export const FinishKakaoLogin = ({ code }: FinishKakaoLoginProps) => {
         const userDataResult = await putUserData(loggedInUserDataAll, email);
         const insertResult = await postInsertUserData(data);
 
-        console.log(userDataResult?.data);
-        console.log(insertResult);
-
         navigate("/");
       }
     };
