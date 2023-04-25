@@ -85,13 +85,11 @@ const ListDetail = () => {
       <Nav />
       <Lists>
         {post && (
-          <Link to={`${post.id}`}>
-            <ListData key={post.id}>
-              <span>{post.username}</span>
-              <img src={post.image} />
-              <span>{post.content}</span>
-            </ListData>
-          </Link>
+          <ListData key={post.id}>
+            <span>{post.username}</span>
+            <img src={post.image} />
+            <span>{post.content}</span>
+          </ListData>
         )}
       </Lists>
     </Wrapper>
