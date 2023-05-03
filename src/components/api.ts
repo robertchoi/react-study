@@ -89,46 +89,42 @@ export interface iReadPost {
   id: string;
 }
 export const readPost = async (data: iReadPost) => {
-  let config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: "https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/readPost",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    params: data,
-  };
-
-  axios
-    .request(config)
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  try {
+    const response = await axios.post(
+      "https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/readPost",
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export interface iReadPosts {
   start: string;
   listn: string;
 }
+
 export const readPosts = async (data: iReadPosts) => {
-  let config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: "https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/readPosts",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    data: data,
-  };
-  axios
-    .request(config)
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  try {
+    const response = await axios.post(
+      "https://port-0-area-node-express-r8xoo2mledsvukh.sel3.cloudtype.app/users/readPosts",
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response.data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
 };
